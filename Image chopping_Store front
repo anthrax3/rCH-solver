@@ -1,0 +1,91 @@
+from PIL import Image
+import matplotlib.pyplot as plt
+#PIL.__version__
+#import pyscreenshot as pss
+#im=pss.grab(bbox=(68,451,204,590)).save('E:\BDAP\Project\\rCH\Split images\\Test 2.jpeg',"JPEG")
+import os
+#image1.show()
+#image1.convert("L").show()
+#image1.getbands()
+### 3x3 image split
+
+## Store-Front only
+
+path_input = "/media/radial/Work/BDAP/Project/rCH/Image database for rCH/Test/Store front/"
+path_output = "/media/radial/Work/BDAP/Project/rCH/Image database for rCH/Test/Store front/"
+
+listing = os.listdir(path_input)
+len(listing)
+j = 1
+for i in listing:
+    #image1.size
+    x = (0,0,150,75)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1
+    
+    x = (150,0,300,75)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+    
+    x = (0,75,150,150)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+    
+    x = (150,75,300,150)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+    
+    x = (0,150,150,225)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+    
+    x = (150,150,300,225)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+   
+    x = (0,225,150,300)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+    
+    x = (150,225,300,300)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    

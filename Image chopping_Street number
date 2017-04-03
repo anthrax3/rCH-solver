@@ -1,0 +1,100 @@
+from PIL import Image
+import matplotlib.pyplot as plt
+#PIL.__version__
+#import pyscreenshot as pss
+#im=pss.grab(bbox=(68,451,204,590)).save('E:\BDAP\Project\\rCH\Split images\\Test 2.jpeg',"JPEG")
+import os
+#image1.show()
+#image1.convert("L").show()
+#image1.getbands()
+### 3x3 image split
+
+## ANything but street-sign and store front
+
+path_input = "/media/radial/Work/BDAP/Project/rCH/Image database for rCH/Test/Street sign/"  #fill in 
+path_output = "/media/radial/Work/BDAP/Project/rCH/Image database for rCH/Test/Street sign/" #fill in 
+
+listing = os.listdir(path_input)
+len(listing)
+j = 1
+for i in listing:
+    #image1.size
+    x = (0,0,100,100)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1
+    
+    x = (100,0,200,100)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+    
+    x = (200,0,300,100)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+    
+    x = (0,100,100,200)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+    
+    x = (100,100,200,200)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+    
+    x = (200,100,300,200)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+   
+    x = (0,200,100,300)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+    
+    x = (100,200,200,300)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1    
+    
+    
+    x = (200,200,300,300)
+    img = Image.open(path_input   + str(i)  )
+    #img.show()
+    part1 = img.crop(x)
+    #part1.show()
+    part1.save(path_output + "/" + str(j) ,"JPEG" )
+    j = j+1  
+    

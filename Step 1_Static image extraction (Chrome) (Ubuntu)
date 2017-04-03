@@ -1,0 +1,49 @@
+import pyautogui as pag
+from time import sleep
+from selenium import webdriver
+# open the site and click on the box
+driver = webdriver.Chrome('/media/radial/Work/BDAP/Project/rCH/chromedriver')
+driver.maximize_window()
+driver.get('https://patrickhlauke.github.io/recaptcha/')
+sleep(1.5)
+#check for the static condition in the frame
+element = driver.find_element_by_xpath('/html/body/div/div/div/iframe') 
+element.click()
+sleep(1.5)
+driver.switch_to.frame(1)
+sleep(1)
+felement = driver.find_element_by_xpath('/html/body/div/div/div[2]/div/div/div')
+val = felement.get_attribute("innerHTML")
+print(val[31:40])
+if "number" in val:
+    print("street numbers")
+if "sign" in val:
+    print("street sign")
+if "house" in val:
+    print("To select house")
+if "front" in val:
+    print("Store front")
+if val[31:40] == "mountains":
+    pag.moveTo(86,650)
+    pag.click()
+else:
+    pag.moveTo(86,650)
+    pag.click()
+    
+    
+#If there are none, click skip.
+#save the file
+"""
+sleep(1.5)
+pag.moveTo(233,382)
+pag.click(button="right")
+sleep(1.5)
+pag.moveTo(289,426)
+pag.click()
+sleep(1.5)
+pag.moveTo(812,638)
+pag.click()
+sleep(1.5)
+import pyscreenshot as pss
+im=pss.grab(bbox=(68,204,451,590)).save('E:\BDAP\Project\\rCH\Split images\\Test 2.jpeg',"JPEG")
+"""

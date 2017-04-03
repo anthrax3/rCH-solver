@@ -1,0 +1,83 @@
+from keras.models import Sequential
+from keras.layers import Dense, Dropout,Activation,Flatten
+from keras.layers.convolutional import Convolution3D, MaxPooling3D, Convolution2D, MaxPooling2D
+from keras.optimizers import SGD, RMSprop, adam
+from keras.utils import np_utils
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+import theano
+from PIL import Image
+from numpy import *
+
+from sklearn.utils import shuffle
+from sklearn.cross_validation import train_test_split
+"""
+img = Image.open("/media/radial/Work/BDAP/Project/rCH/Image database for rCH/2001-3000/stree_sign840.jpg")
+plt.imshow(img)
+plt.show()
+"""
+path1 = "/media/radial/Work/BDAP/Project/rCH/Image database for rCH/Processed/X-house/Chopped"
+listing = os.listdir(path1)
+len(listing)
+'''
+for i in range(1,1083):
+    im = Image.open(path1 +"/"+ str(i))
+    #print(im.size)
+'''    
+for im2 in listing:
+    imat = array([array(Image.open(path1 + "//"+ str(im2))).flatten() for im2 in listing],'f')
+imat.shape
+batch_size = 32
+nb_class = 1
+nb_epoch = 10
+c = 3
+train = imat.reshape(imat.shape[0],3,100,100)
+train /= 255
+
+label = np.ones(len(listing))
+label.shape
+label = np_utils.to_categorical(label, 1)
+#test = np_utils.to_categorical(y_test, 10)
+testlabel = np_utils.to_categorical(1, nb_classes)
+
+def model():
+    model = Sequential()
+    model.add(Convolution3D(32, 3, 3,3, activation='relu', input_shape=(3,1,100,100)))
+    model.add(Activation('relu'))
+    model.add(Convolution3D(32, 3, 3,3,activation="tanh"))
+    model.add(Activation('relu'))
+    model.add(MaxPooling3D(pool_size=(2,2, 2)))
+    model.add(Dropout(0.25))
+
+    model.add(Convolution3D(64, 3, 3, border_mode='same'))
+    model.add(Activation('relu'))
+    model.add(Convolution3D(64, 3, 3,3))
+    model.add(Activation('relu'))
+    model.add(MaxPooling3D(pool_size=(2, 2,2)))
+    model.add(Dropout(0.25))
+ 
+    model.add(Flatten())
+    #model.add(Dense(512))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('softmax'))
+    
+test = Image.open("/media/radial/Work/BDAP/Project/rCH/Image database for rCH/Test/House/2")
+testimage = array([array(test).flatten() for im2 in listing],'f')
+
+def train_model(model, train, label, testimage,testlabel):
+ 
+   sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+   model.compile(loss='categorical_crossentropy', optimizer=sgd)
+ 
+   model.fit(train, train, nb_epoch=nb_epoch, batch_size=batch_size,
+             validation_split=0.1, show_accuracy=True, verbose=1)
+ 
+   print('Testing...')
+   res = model.evaluate(test, testlabel,
+                        batch_size=batch_size, verbose=1, show_accuracy=True)
+   print('Test accuracy: {0}'.format(res[1]))
+   
+train_model(model,train,label,testimage,1)

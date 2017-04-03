@@ -1,0 +1,65 @@
+import pyautogui as pag # mouse controller
+from time import sleep
+##has to be executed after opening the website with segment
+##co-ordinates to be updated after classification
+pag.moveTo(1300,350) #introduce delay
+pag.moveTo(1301,350) #introduce delay
+pag.moveTo(1302,350) #introduce delay
+pag.moveTo(1303,350) #introduce delay
+pag.moveTo(1304,350) #introduce delay
+sleep(2)
+
+pag.moveTo(34,217)
+pag.click() #to click the checkbox
+pag.moveTo(1300,350) #introduce delay
+pag.moveTo(1301,350) #introduce delay
+pag.moveTo(1302,350) #introduce delay
+pag.moveTo(1303,350) #introduce delay
+pag.moveTo(1304,350) #introduce delay
+sleep(2)
+#for 3x3 first click
+pag.moveTo(120,268) # to be modified
+pag.click() #to click the image segment
+pag.moveTo(1300,350) #introduce delay
+pag.moveTo(1301,350) #introduce delay
+pag.moveTo(1302,350) #introduce delay
+pag.moveTo(1303,350) #introduce delay
+pag.moveTo(1304,350) #introduce delay
+sleep(2)
+#for 3x3 second click
+pag.moveTo(260,268) # to be modified
+pag.click() #to click the image segment
+pag.moveTo(1200,350) #introduce delay
+pag.moveTo(1201,350) #introduce delay
+pag.moveTo(1202,350) #introduce delay
+pag.moveTo(1203,350) #introduce delay
+pag.moveTo(1204,350) #introduce delay
+sleep(2)
+#for 3x3 third click
+pag.moveTo(260,395) # to be modified
+pag.click() #to click the image segment
+pag.moveTo(1100,350) #introduce delay
+pag.moveTo(1101,350) #introduce delay
+pag.moveTo(1102,350) #introduce delay
+pag.moveTo(1103,350) #introduce delay
+pag.moveTo(1104,350) #introduce delay
+sleep(2)
+#for 3x3 fourth click
+pag.moveTo(382,520) # to be modified
+pag.click() #to click the image segment
+pag.moveTo(1000,350) #introduce delay
+pag.moveTo(1001,350) #introduce delay
+pag.moveTo(1002,350) #introduce delay
+pag.moveTo(1003,350) #introduce delay
+pag.moveTo(1004,350) #introduce delay
+sleep(2)
+#for 3x3 verification click
+pag.moveTo(397,626) 
+pag.click() 
+
+## can be implemented for 4x2 and 4x4 just the same lines
+## with new co-ordinates, can be done later, detals in notebook
+
+
+
+

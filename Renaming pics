@@ -1,0 +1,28 @@
+from PIL import Image
+import matplotlib.pyplot as plt
+#PIL.__version__
+#import pyscreenshot as pss
+#im=pss.grab(bbox=(68,451,204,590)).save('E:\BDAP\Project\\rCH\Split images\\Test 2.jpeg',"JPEG")
+import os
+#image1.show()
+#image1.convert("L").show()
+#image1.getbands()
+### 3x3 image split
+
+## ANything but street-sign and store front
+
+path_input = "/media/radial/Work/BDAP/Project/rCH/Image database for rCH/Processed/X-Street number/Chopped (copy)/"  
+path_output = "/media/radial/Work/BDAP/Project/rCH/Image database for rCH/Processed/X-Street number/Chopped/"  
+#path_input = "E:\BDAP\Project\rCH\Image database for rCH\Processed\X-Street sign\Original\\"  
+#path_output = "E:\BDAP\Project\rCH\Image database for rCH\Processed\X-Street sign\Chopped\\" 
+#path_input = "E:\BDAP\Project\\rCH\Image database for rCH\Test\\"  
+#path_output = "E:\BDAP\Project\\rCH\Image database for rCH\Test\\" 
+
+listing = os.listdir(path_input)
+len(listing)
+j = 1
+for i in listing:
+    #image1.size
+    img = Image.open(path_input   + str(i)  )
+    img.save(path_output + "/" + str(j) + ".jpg" ,"JPEG" )
+    j = j+1

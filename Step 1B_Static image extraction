@@ -1,0 +1,27 @@
+import pyautogui as pag
+import pyscreenshot as pss
+from time import sleep
+from selenium import webdriver
+# open the site and click on the box
+driver = webdriver.Chrome('/media/radial/Work/BDAP/Project/rCH/chromedriver')
+driver.maximize_window()
+driver.get('https://patrickhlauke.github.io/recaptcha/')
+sleep(1.5)
+#check for the static condition in the frame
+element = driver.find_element_by_xpath('/html/body/div/div/div/iframe') 
+element.click()
+
+#save the first image
+sleep(1.5)
+pag.moveTo(233,382)
+pag.click(button="right")
+sleep(1.5)
+pag.moveTo(289,426)
+pag.click()
+sleep(1.5)
+pag.moveTo(1049,696)
+pag.click()
+sleep(1.5)
+
+#after selection, image changes, then call the print screen and cutting team
+

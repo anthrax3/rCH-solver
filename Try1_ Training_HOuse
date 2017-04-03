@@ -1,0 +1,221 @@
+#KERAS
+from keras.models import Sequential
+from keras.layers.core import Dense, Dropout, Activation, Flatten
+from keras.layers.convolutional import Convolution2D, MaxPooling2D, Convolution3D, MaxPooling3D
+from keras.optimizers import SGD,RMSprop,adam, Nadam
+from keras.utils import np_utils
+#from utils import draw_accuracy, draw_loss
+from keras.callbacks import EarlyStopping
+from keras.preprocessing.image import ImageDataGenerator
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+import os
+import theano
+from PIL import Image
+from numpy import *
+# SKLEARN
+from sklearn.utils import shuffle
+from sklearn.model_selection import train_test_split
+
+
+#  data
+data_augmentation = True
+
+house = '/media/radial/Work/BDAP/Project/rCH/Image database for rCH/Processed/X-house/Chopped/'    #path of folder of images    
+bg = '/media/radial/Work/BDAP/Project/rCH/Image database for rCH/Processed/X-ETC/From house/'  #path of folder to save images    
+#house = 'E:\BDAP\Project\\rCH\Image database for rCH\Processed\X-house\Chopped\\'    #path of folder of images    
+#number = 'E:\BDAP\Project\\rCH\Image database for rCH\Processed\X-Street number\Chopped\\'  #path of folder to save images    
+dir_house = os.listdir(house) # list of image names
+dir_bg = os.listdir(bg)
+m = len(dir_house) # number of images
+n = len(dir_bg)
+# image to matrix converison
+house_mat = array([array(Image.open(house+ '/' + im1)).flatten()
+              for im1 in dir_house],'f')
+house_mat.shape
+bg_mat = array([array(Image.open(bg+ '/' + im1)).flatten()
+              for im1 in dir_bg],'f')
+bg_mat.shape
+#make it one big matrix
+main = np.append([house_mat],[bg_mat],axis=1)
+main[0].shape
+#Create the y 
+
+label = np.zeros(2440)
+label[:1080]= 1
+label[1081:] = 0
+label.shape
+#shuffle the data
+data, label = shuffle(main[0], label, random_state = 6)
+train_data= [data,label]
+len(train_data[0])
+train_data[1]
+train_data[0]
+# define hyperparameters
+batch = 20
+classes = 2
+epoch = 20
+channels = 3
+pool = 3
+convolution = 3
+filters = 25
+r = 100
+c = 100
+
+#split the data for testing and training purpose
+(x,y) = (train_data[0],train_data[1])
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size = 0.2,random_state = 3)
+x_train = x_train.reshape(1952,3,c,r) 
+x_test = x_test.reshape(488,3,c,r)
+x_train = x_train/255
+x_test = x_test/255
+
+#2440*80/100
+
+print('X_train shape:', x_train.shape)
+print(x_train.shape[0], 'train samples')
+print(x_test.shape[0], 'test samples')
+
+# labels selection to categorical (hosue or number)
+y_train = np_utils.to_categorical(y_train,classes)
+y_test = np_utils.to_categorical(y_test,classes)
+y_train.shape
+y_test.shape
+
+plt.imshow(x_train[120,0], interpolation="nearest")
+
+# model building starts
+#def hnn(weights = None):
+model  = Sequential()
+
+model.add(Convolution2D(filters, convolution, convolution,border_mode='valid', input_shape =(3,100,100),bias=True))
+convout1 = Activation('relu')
+model.add(convout1)
+
+model.add(MaxPooling2D(pool_size=(pool, pool)))
+
+model.add(Convolution2D(filters, convolution, convolution))
+convout2 = Activation('relu')
+model.add(convout2)
+
+model.add(Convolution2D(filters, convolution, convolution, border_mode="same"))
+model.add(Activation('relu'))
+
+model.add(Convolution2D(filters, convolution, convolution, border_mode="same"))
+model.add(Activation('relu'))
+
+model.add(MaxPooling2D(pool_size=(pool, pool)))
+model.add(Dropout(0.5))
+
+model.add(Convolution2D(filters, convolution, convolution, border_mode="same"))
+model.add(Activation('relu'))
+
+model.add(Convolution2D(filters, convolution, convolution))
+model.add(Activation('relu'))
+
+model.add(Convolution2D(filters, convolution, convolution))
+model.add(Activation('relu'))
+
+model.add(Convolution2D(filters, convolution, convolution))
+model.add(Activation('relu'))
+
+model.add(MaxPooling2D(pool_size=(pool, pool)))
+
+'''
+model.add(Convolution2D(filters, convolution, convolution, border_mode="same"))
+model.add(Activation('relu'))
+model.add(Convolution2D(filters, convolution, convolution))
+model.add(Activation('relu'))
+
+model.add(MaxPooling2D(pool_size=(pool, pool)))
+model.add(Dropout(0.35))
+
+model.add(Convolution2D(filters, convolution, convolution))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(pool, pool)))
+model.add(Dropout(0.5))
+
+model.add(Convolution2D(filters, convolution, convolution))
+model.add(Activation('relu'))
+
+model.add(MaxPooling2D(pool_size=(pool, pool)))
+model.add(Dropout(0.25))
+
+model.add(Convolution2D(filters, convolution, convolution))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(pool, pool)))
+model.add(Dropout(0.25))
+'''
+model.add(Flatten())
+model.add(Dense(512))
+model.add(Activation('relu'))
+model.add(Dropout(0.45))
+model.add(Dense(classes))
+model.add(Activation('softmax'))
+"""
+if weights:
+    model.load_weights(weights)
+
+return model
+"""
+
+#sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+model.compile(loss='categorical_crossentropy', optimizer="Nadam", metrics=['accuracy'])
+
+
+#data augmentation
+datagen = ImageDataGenerator(featurewise_center=False,
+samplewise_center=False,
+featurewise_std_normalization=False,samplewise_std_normalization=False,zca_whitening=False,
+width_shift_range=0.1,height_shift_range=0.1,horizontal_flip=True,vertical_flip=False)
+datagen.fit(x_train)
+
+# traning
+hist = model.fit_generator(datagen.flow(x_train, y_train, batch_size=batch),
+samples_per_epoch=x_train.shape[0],nb_epoch=epoch, validation_data=(x_test, y_test))
+
+
+
+# reuslts
+
+score = model.evaluate(x_test, y_test, verbose=1)
+print('Test loss:', score[0])
+print('Test accuracy:', score[1])
+print(model.predict_classes(x_test[340:350]))
+print(y_test[340:350])
+
+
+# confusion matrix
+
+from sklearn.metrics import classification_report,confusion_matrix
+
+Y_pred = model.predict(x_test)
+print(Y_pred)
+y_pred = np.argmax(Y_pred, axis=1)
+print(y_pred)
+
+
+#fname = "/media/radial/Work/BDAP/Project/rCH/Python codes/Core work/House and numbers try4_96_8020.hdf5"
+model.save_weights(fname,overwrite=True)
+
+
+
+'''
+model.load_weights("/media/radial/Work/BDAP/Project/rCH/Python codes/Core work/House and numbers try4_96.hdf5")
+
+#Test on an image
+model = hnn('/media/radial/Work/BDAP/Project/rCH/Python codes/Core work/House and numbers try3_96.hdf5')
+model.compile(loss='categorical_crossentropy', optimizer="Nadam", metrics=['accuracy'])
+
+'''
+sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
+model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+'''
+#test image conversion
+test = "/media/radial/Work/BDAP/Project/rCH/Image database for rCH/Test/House/1"
+im = array([array(Image.open(test))],'f')
+out = model.predict(im.reshape(1,3,100,100))
+out
